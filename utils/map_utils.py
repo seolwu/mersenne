@@ -1,3 +1,4 @@
+import os
 from yaml import load, dump
 from .config import MAP_FILE_PATH
 
@@ -15,3 +16,8 @@ def save_map(map_data):
     map_dump = dump(map_data, Dumper=Dumper)
     with open(MAP_FILE_PATH, "w") as file:
         file.write(map_dump)
+
+def initialize_map_file():
+    if not os.path.exists(MAP_FILE_PATH):
+        initial_data = {}
+        save_map(initial_data)

@@ -4,7 +4,7 @@ import asyncio
 from datetime import datetime
 from discord.ext import commands, tasks
 from discord.ui import View, Button
-from utils.map_utils import open_map, save_map
+from utils.map_utils import open_map, save_map, initialize_map_file
 from utils.activity_utils import create_activity_embed, create_previous_month_embed, start_recording
 from utils.config import TOKEN, LOUNGE_ID, LOUNGE_LOG_ID, PROMPT_ID
 
@@ -14,14 +14,15 @@ intents.voice_states = True
 intents.messages = True
 intents.message_content = True
 
-bot = commands.Bot(command_prefix="!", intents=intents)
+bot = commands.Bot(intents=intents)
 
+initialize_map_file()  # Initialize map file if it doesn't exist
 map_data = open_map()
 
 @bot.event
 async def on_ready():
     print(f"+ ready: {bot.user}")
-    
+
     activity = discord.Activity(
         type=discord.ActivityType.watching,
         name="라운지 쓸쩍"
